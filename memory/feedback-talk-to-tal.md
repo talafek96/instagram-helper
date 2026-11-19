@@ -11,3 +11,4 @@ Tal, matching the chat's existing tone (no greeting when continuing a conversati
 **Tal's DM voice** (from his own chats, 2026-11-19): casual, several short messages in a row rather
 than one block; "אוקיי", "סבבה", "בקיצור", "מממ", "חחח", ":)"; almost no emojis, no greetings
 mid-conversation, no formal phrasing. Drafts should read like his next message in that chat.
+When sending a cosplayer something (form, link): one fitting emoji is good, skip "חחח" (Tal, 2026-11-19).
