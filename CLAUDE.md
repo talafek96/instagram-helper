@@ -18,27 +18,25 @@ style live in `~/projects/insta-buddy` (`references/style-guide.md`). Shoot plan
 - DM content and cosplayer personal data never go into git.
 - The token lives only in `.env` here (gitignored). Never print it, commit it, or paste it anywhere.
 
-## How it connects
-- Official Instagram API with **Instagram Login** (`graph.instagram.com`, token starts `IGAA`).
-  No Facebook Page, no private API, no ban risk.
-- DMs need `instagram_business_manage_messages`. **Standard Access (no App Review) is enough**
-  because Tal's own account has a role on his Meta app (Meta docs, Conversations API, checked
-  2026-11-19). Upstream's README says App Review is needed; that applies only to other people's accounts.
-- Limits: only the **20 most recent messages** per conversation; Requests-folder threads idle
-  30+ days are hidden; sending works only within 24 h of the person's last message.
-- Long-lived tokens last 60 days. `refresh_access_token` extends them; refresh before expiry.
-- Run: `uv --directory ~/projects/instagram-helper run instagram-mcp` (that's what the MCP entry does).
-
-## Setup (one-time, Tal does the clicks)
-1. Instagram app: @through_tals_lens must be a Professional account (Business or Creator).
-   Settings → Messages and story replies → Message controls → **Connected tools → Allow access to messages: on**.
-2. developers.facebook.com → My Apps → Create app → use case "Manage messaging & content on Instagram".
-3. App → Instagram → API setup with Instagram login → add @through_tals_lens as an Instagram tester
-   (accept the invite in Instagram: Settings → Website permissions → Apps and websites → Tester invites)
-   → **Generate token** for the account.
-4. Put the token in `~/projects/instagram-helper/.env` as `INSTAGRAM_ACCESS_TOKEN=...`
-   (plus `INSTAGRAM_APP_ID` / `INSTAGRAM_APP_SECRET` from the app's Instagram settings, for refresh).
-5. Restart Claude Code, then check with `validate_access_token` and `get_conversations`.
+## How it connects (as set up 2026-11-19)
+- Meta app **Tals Lens Helper** (ID 972224512280829), owned by business portfolio **Through Tals Lens**
+  (1761668101576010). Meta no longer offers "Instagram login" to new apps, only **Unified login**:
+  one **system-user token (EAA..., never expires)** per Instagram account, calls go to
+  `graph.facebook.com/{ig-user-id}`. Our patch: `IG_ACCOUNTS` in `.env` turns this mode on, `"me"`
+  paths become the IG user id, tools `list_accounts` / `use_account` switch accounts.
+- `.env` keys: `IG_ACCOUNTS`, `IG_DEFAULT_ACCOUNT`, `IG_USER_ID_<NAME>`, `IG_TOKEN_<NAME>`.
+  Every token is **also** saved in `/Users/talafek/Library/CloudStorage/OneDrive2-Personal/Documents/api_keys.txt`.
+  Never print that file (one secret per line).
+- Accounts: `through_tals_lens` = 17841476210183578; `talafek96` = 17841401771590540 (switched to Creator 2026-11-19).
+- New token: the account must be (1) Professional, (2) added to the portfolio in Business Suite ->
+  Instagram accounts, (3) an accepted Instagram Tester (instagram.com/accounts/manage_access -> Tester
+  invites); then app -> Use cases -> Instagram API -> API setup with Unified login -> Generate token.
+  Meta's asset/login popups open outside the Chrome tab group, so Tal clicks those.
+- DMs also need the phone-app switch **Connected tools -> Allow access to messages**, otherwise Meta
+  returns "(#200) The account owner has disabled access to Instagram Direct Messaging Outside of Instagram App".
+- Limits: only the **20 most recent messages** per conversation; sending only within 24 h of their last message.
+- `mcp` is pinned `<2` (2.x renamed FastMCP). httpx INFO logging is silenced because URLs carry the token.
+- Run: `uv --directory ~/projects/instagram-helper run instagram-mcp` (what the user-scope MCP entry does).
 
 ## Working on the code
 Upstream's contribution notes are in `README.md`. Keep Tal-specific changes small so upstream merges
