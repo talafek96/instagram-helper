@@ -14,7 +14,17 @@ logger = logging.getLogger(__name__)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
-mcp = FastMCP("instagram-mcp")
+_INSTRUCTIONS = """Tal's Instagram helper (@through_tals_lens, @talafek96). Its memory lives in
+~/projects/instagram-helper/memory/ (index: MEMORY.md).
+- BEFORE the first Instagram tool call in a session, read MEMORY.md and every feedback-*.md there.
+- NEVER send a DM, comment reply or post without Tal's explicit approval of the exact text.
+- When Tal corrects or confirms how Instagram work should be done, or you learn a durable fact about
+  the API/setup, update that memory folder right away (edit the matching file, don't duplicate; one
+  fact per file; feedback-*: rule + Why + How to apply), update MEMORY.md, then commit and push
+  ~/projects/instagram-helper. Never put DM contents, cosplayer personal data or tokens in memory.
+- Accounts: list_accounts / use_account. Only the 20 latest messages per chat are readable."""
+
+mcp = FastMCP("instagram-mcp", instructions=_INSTRUCTIONS)
 
 _client: InstagramClient | None = None
 _fb_client: FBGraphClient | None = None

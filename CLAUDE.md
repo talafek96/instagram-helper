@@ -18,6 +18,19 @@ style live in `~/projects/insta-buddy` (`references/style-guide.md`). Shoot plan
 - DM content and cosplayer personal data never go into git.
 - Tokens live in `.env` here (gitignored) AND in the OneDrive api_keys.txt below. Never print, commit or paste them.
 
+## Memory (self-improving)
+Durable lessons live in **`memory/`**, indexed by **`memory/MEMORY.md`**; `.claude/hooks/inject-memory.sh`
+injects the index, `project-status.md` and all `feedback-*.md` at every session start (also after compaction).
+- When Tal corrects you, confirms an approach, or you learn something durable about Meta/Instagram:
+  update memory **in the same turn**. Edit the matching file instead of adding a near-duplicate;
+  rewrite superseded rules. One fact per file, kebab-case name = frontmatter `name:`,
+  `type:` user / feedback / project / reference. Feedback files: the rule, **Why**, **How to apply**.
+- Keep `project-status.md` current whenever something changes state.
+- Commit and push memory with the work that taught it.
+- Never store DM contents, cosplayer personal data or tokens in memory.
+- Other projects use these tools via MCP; the server's `instructions` tell them to read and update
+  this folder, so lessons learned elsewhere still land here.
+
 ## How it connects (as set up 2026-11-19)
 - Meta app **Tals Lens Helper** (ID 972224512280829), owned by business portfolio **Through Tals Lens**
   (1761668101576010). Meta no longer offers "Instagram login" to new apps, only **Unified login**:
