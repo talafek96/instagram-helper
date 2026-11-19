@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from ..server import format_error, get_client, mcp
+from ..config import Config
+from ..server import format_error, get_client, get_config, mcp, use_account_
 
 
 @mcp.tool()
@@ -84,5 +85,31 @@ async def send_dm(recipient_id: str, message: str) -> dict[str, Any]:
             },
         )
         return {"ok": True, **data}
+    except Exception as e:
+        return format_error(e)
+
+
+@mcp.tool()
+async def list_accounts() -> dict[str, Any]:
+    """List the Instagram accounts this server can act as, and which one is active.
+
+    Every other tool works on the active account. Switch with use_account.
+    """
+    try:
+        return {"ok": True, "accounts": Config.accounts(), "active": get_config().account}
+    except Exception as e:
+        return format_error(e)
+
+
+@mcp.tool()
+async def use_account(name: str) -> dict[str, Any]:
+    """Make another Instagram account active for all following tool calls.
+
+    Args:
+        name: An account name from list_accounts (e.g. "through_tals_lens", "talafek96").
+    """
+    try:
+        cfg = use_account_(name)
+        return {"ok": True, "active": cfg.account, "ig_user_id": cfg.ig_user_id}
     except Exception as e:
         return format_error(e)

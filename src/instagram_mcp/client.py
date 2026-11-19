@@ -144,7 +144,19 @@ class InstagramClient(_BaseGraphClient):
         # OAuth endpoints sit outside the versioned namespace
         if path.startswith(("access_token", "refresh_access_token", "oauth/")):
             return f"https://graph.instagram.com/{path}"
+        uid = self.config.ig_user_id
+        if uid and (path == "me" or path.startswith("me/")):
+            path = uid + path[2:]  # Unified login: no /me for IG, use the IG user id
         return f"{self.base_url}/{path}"
+
+
+    async def request(self, method: str, path: str, **kwargs: Any) -> dict[str, Any]:
+        params = kwargs.get("params")
+        if self.config.ig_user_id and params and "fields" in params:
+            # graph.facebook.com has no account_type field on IG users
+            kwargs["params"] = {**params, "fields": ",".join(
+                f for f in str(params["fields"]).split(",") if f != "account_type")}
+        return await super().request(method, path, **kwargs)
 
 
 class FBGraphClient(_BaseGraphClient):

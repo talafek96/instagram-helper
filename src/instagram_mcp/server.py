@@ -10,6 +10,8 @@ from .client import FBGraphClient, InstagramAPIError, InstagramClient
 from .config import Config
 
 logger = logging.getLogger(__name__)
+# httpx logs full request URLs at INFO, and the access token is a URL parameter.
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 mcp = FastMCP("instagram-mcp")
@@ -25,6 +27,14 @@ def get_client() -> InstagramClient:
         _config = Config.from_env()
         _client = InstagramClient(_config)
     return _client
+
+
+def use_account_(name: str) -> Config:
+    """Switch every tool to another configured Instagram account (Unified-login mode)."""
+    global _client, _fb_client, _config
+    cfg = Config.from_env(name)
+    _config, _client, _fb_client = cfg, InstagramClient(cfg), None
+    return cfg
 
 
 def get_fb_client() -> FBGraphClient | None:
