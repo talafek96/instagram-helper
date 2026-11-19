@@ -28,8 +28,9 @@ injects the index, `project-status.md` and all `feedback-*.md` at every session 
 - Keep `project-status.md` current whenever something changes state.
 - Commit and push memory with the work that taught it.
 - Never store DM contents, cosplayer personal data or tokens in memory.
-- Other projects use these tools via MCP; the server's `instructions` tell them to read and update
-  this folder, so lessons learned elsewhere still land here.
+- Other projects reach this two ways, both of which read AND update this folder:
+  the **`instagram-expert` subagent** (`agents/instagram-expert.md`, symlinked into `~/.claude/agents/`)
+  and the MCP server's `instructions` for direct tool use. Edit the agent's persona here, never in `~/.claude/agents/`.
 
 ## How it connects (as set up 2026-11-19)
 - Meta app **Tals Lens Helper** (ID 972224512280829), owned by business portfolio **Through Tals Lens**
