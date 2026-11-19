@@ -9,8 +9,9 @@ from ..server import format_error, get_client, mcp
 async def get_conversations(limit: int = 20) -> dict[str, Any]:
     """List Instagram DM conversations.
 
-    Requires the instagram_manage_messages permission with Advanced Access
-    (granted via Meta App Review).
+    Requires instagram_business_manage_messages. Standard Access (no App Review)
+    is enough for your own account when it has a role on the Meta app.
+    Only the 20 most recent messages of each conversation are readable.
 
     Args:
         limit: Number of conversations to return (1-100, default 20).
@@ -34,7 +35,8 @@ async def get_conversations(limit: int = 20) -> dict[str, Any]:
 async def get_conversation_messages(conversation_id: str, limit: int = 25) -> dict[str, Any]:
     """List messages in a specific Instagram DM conversation.
 
-    Requires instagram_manage_messages with Advanced Access.
+    Requires instagram_business_manage_messages (Standard Access is enough for
+    your own account). Meta only returns the 20 most recent messages.
 
     Args:
         conversation_id: ID from get_conversations.
@@ -60,8 +62,11 @@ async def get_conversation_messages(conversation_id: str, limit: int = 25) -> di
 async def send_dm(recipient_id: str, message: str) -> dict[str, Any]:
     """Send an Instagram DM.
 
-    Requires instagram_manage_messages with Advanced Access. Can only reply to
-    users who have messaged you in the past 24 hours (24-hour window rule).
+    NEVER call this without the account owner's explicit approval of the exact
+    message text in this conversation. Draft first, show it, wait for a yes.
+
+    Requires instagram_business_manage_messages. Can only reply to users who
+    have messaged you in the past 24 hours (24-hour window rule).
 
     Args:
         recipient_id: Instagram Scoped User ID (IGSID) of the recipient.
