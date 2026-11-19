@@ -17,4 +17,6 @@ description: Meta app/portfolio/token setup for the Instagram helper and the qui
   outside the Chrome extension's tab group. A personal IG account fails to add with a generic
   "Sorry, something went wrong". DMs need the phone-app switch Connected tools → Allow access to
   messages, else error #200 "disabled access to Instagram Direct Messaging Outside of Instagram App".
+- Rate limit: dev-mode app hit "(#4) Application request limit reached" after ~260 calls in a few
+  minutes (scanning 25 chats x messages). Fetch only the chats you need; it resets within ~1 h.
 - mcp 2.x broke the server (FastMCP renamed): pinned `mcp<2`.
