@@ -16,7 +16,7 @@ style live in `~/projects/insta-buddy` (`references/style-guide.md`). Shoot plan
 - Tal does not read Hebrew comfortably in the terminal: talk to him in English; put Hebrew
   drafts in a plain `.txt` opened in TextEdit and give the full absolute path.
 - DM content and cosplayer personal data never go into git.
-- The token lives only in `.env` here (gitignored). Never print it, commit it, or paste it anywhere.
+- Tokens live in `.env` here (gitignored) AND in the OneDrive api_keys.txt below. Never print, commit or paste them.
 
 ## How it connects (as set up 2026-11-19)
 - Meta app **Tals Lens Helper** (ID 972224512280829), owned by business portfolio **Through Tals Lens**
